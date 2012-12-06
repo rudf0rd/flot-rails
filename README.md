@@ -18,7 +18,7 @@ bundle install
 
 ## Example Usage ##
 
-Modify the "application.js" like shown below:
+Modify the `application.js` like shown below:
 
 ```js
 // This is a manifest file that'll be compiled into application.js, which will include all the files
@@ -45,7 +45,9 @@ or with my little RailsHelper:
 module ApplicationHelper
   include Flot
 end
+```
 
-// views/my_controller/index.html
+```erb
+<!-- views/my_controller/index.html -->
 <%= pie_chart [{label: 'Hello World', data: 50}, {label: 'Foo', data: 25}, {label: 'Bar', data: 25}] %>
 ```
