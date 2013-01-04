@@ -21,7 +21,7 @@ module Flot
     return raw (<<-HTML
 <div class="inner" id="#{uniq_name}" style="width:600px;height:300px;"></div>
 <script type='text/javascript'>
-  $(function () {
+  $(window).load(function () {
     $.plot($(\"\##{uniq_name}\"), #{dataset.to_s.gsub(/:(\w*)=>/, "\n" + '\1: ').gsub(/(\[|\{)(\[|\{)/, '\1' + "\n" + '\2  ').gsub(/],/, "],\n")}#{(', ' + opts.to_s.gsub(/:(\w*)=>/, "\n" + '\1: ')) unless opts.empty? } ); 
   });
 </script>
