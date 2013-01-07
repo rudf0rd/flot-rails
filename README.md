@@ -21,18 +21,6 @@ bundle install
 Modify the `application.js` like shown below:
 
 ```js
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// the compiled file.
-//
-// WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
-// GO AFTER THE REQUIRES BELOW.
-//
 //= require jquery
 //= require jquery.flot
 //= require jquery.flot.pie
@@ -48,6 +36,20 @@ end
 ```
 
 ```erb
-<!-- views/my_controller/index.html -->
+<!-- views/my_controller/index.html.erb -->
 <%= pie_chart [{label: 'Hello World', data: 50}, {label: 'Foo', data: 25}, {label: 'Bar', data: 25}] %>
+```
+
+If you prefer placing your scripts in header instead of the body, then use something like this:
+```erb
+<!-- views/my_controller/index.html.erb -->
+<%= chart(@chart_data, split: true, grid: {hoverable: true}) %>
+<%= yield_chart_script_at :flot %>
+```
+and append a yield in your layout's head:
+```erb
+<!-- views/layouts/application.html.erb
+<head>
+  <%= yield :flot %>
+</head>
 ```
