@@ -1,3 +1,0 @@
-[submodule "vendor/assets/javascripts"]
-	path = vendor/assets/javascripts
-	url = https://github.com/flot/flot.git

@@ -9,7 +9,7 @@ https://github.com/flot/flot
 ## Install ##
 Just add the line 
 ```ruby
-gem 'flot-rails' 
+gem 'flot-rails', :git => "https://github.com/Kjarrigan/flot-rails.git"
 ```
 in your Gemfile and run 
 ```sh
