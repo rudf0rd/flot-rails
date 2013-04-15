@@ -18,7 +18,11 @@ module Flot
     @__chart_script_content ||= []
     
     split_flag = opts.delete(:split)
-    uniq_name = [opts.delete(:prefix), :chart, dataset.join.hash.abs.to_s].compact.join('_')
+		el_width = opts.delete(:el_width)
+		el_height = opts.delete(:el_height)
+		target = opts.delete(:target)
+		
+    uniq_name = target ? target : [opts.delete(:prefix), :chart, dataset.join.hash.abs.to_s].compact.join('_')
     
     # dataset will be some kind of tripple nested arrays or an array of hashes with an 2-dimensional-array data-element
     raise InvalidDataset, dataset.inspect unless dataset.kind_of?(Array)
@@ -26,19 +30,26 @@ module Flot
       raise InvalidDataset unless ele.kind_of?(Array) or (ele.kind_of?(Hash) and ele.has_key?(:data))
     end
     
-    div = "<div class=\"inner\" id=\"#{uniq_name}\" style=\"width:600px;height:300px;\"></div>"
+		if target
+			div = nil
+		else
+    	div = "<div class=\"inner\" id=\"#{uniq_name}\" style=\"width:600px;height:300px;\"></div>"
+		end
+		
     script = <<-HTML
-<script type='text/javascript'>
-  $(window).load(function () {
-    $.plot($("##{uniq_name}"), #{dataset.to_s.gsub(/:(\w*)=>/, '\1: ').gsub(/(\[|\{)(\[|\{)/, '\1' + "\n" + '\2  ').gsub(/],/, "],\n")}#{(', ' + opts.to_s.gsub(/:(\w*)=>/, '\1: ')) unless opts.empty? } ); 
-  });
-</script>
+		<script type='text/javascript'>
+		  $(window).load(function () {
+		    $.plot($("##{uniq_name}"), #{dataset.to_s.gsub(/:(\w*)=>/, '\1: ').gsub(/(\[|\{)(\[|\{)/, '\1' + "\n" + '\2  ').gsub(/],/, "],\n")}#{(', ' + opts.to_s.gsub(/:(\w*)=>/, '\1: ')) unless opts.empty? } ); 
+		  });
+		</script>
     HTML
     
     if split_flag
       @__chart_script_content << script
       return raw div
-    else
+    elsif target and !div
+			return raw script
+		else
       return raw div + script
     end
   end
