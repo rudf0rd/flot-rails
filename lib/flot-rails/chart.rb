@@ -22,8 +22,6 @@ module Flot
 		el_height = opts.delete(:el_height)
 		target = opts.delete(:target)
 		
-    uniq_name = target ? target : [opts.delete(:prefix), :chart, dataset.join.hash.abs.to_s].compact.join('_')
-    
     # dataset will be some kind of tripple nested arrays or an array of hashes with an 2-dimensional-array data-element
     raise InvalidDataset, dataset.inspect unless dataset.kind_of?(Array)
     dataset.each do |ele|
@@ -31,8 +29,11 @@ module Flot
     end
     
 		if target
+			uniq_name = target
+			opts.delete(:prefix)
 			div = nil
 		else
+			uniq_name = [opts.delete(:prefix), :chart, dataset.join.hash.abs.to_s].compact.join('_')
     	div = "<div class=\"inner\" id=\"#{uniq_name}\" style=\"width:600px;height:300px;\"></div>"
 		end
 		
